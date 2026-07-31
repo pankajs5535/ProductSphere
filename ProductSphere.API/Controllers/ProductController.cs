@@ -10,16 +10,21 @@ namespace ProductSphere.API.Controllers
     {
         private readonly IProductService _productService;
 
+        private readonly ILogger<ProductController> _logger;
+
         //using DI
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, ILogger<ProductController> logger)
         {
             _productService = productService;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var products = await _productService.GetAllAsync();
+            _logger.LogInformation("GetAll Products API called.");
+            throw new Exception("Test exception");
             return Ok(products);
         }
 

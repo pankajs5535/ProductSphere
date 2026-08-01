@@ -3,6 +3,7 @@ using ProductSphere.Application.DTOs.ItemDtos;
 using ProductSphere.Application.Interfaces.IRepositories;
 using ProductSphere.Application.Interfaces.IServices;
 using ProductSphere.Domain.Entities;
+using ProductSphere.Domain.Exceptions; // Glo_Exc
 
 namespace ProductSphere.Infrastructure.Services
 {
@@ -28,7 +29,7 @@ namespace ProductSphere.Infrastructure.Services
             var item = await _unitOfWork.Items.GetByIdAsync(id);
 
             if (item == null)
-                return null;
+                throw new NotFoundException($"Item with Id {id} was not found."); // Glo_Exc
 
             return _mapper.Map<ItemDto>(item);
         }
@@ -46,7 +47,7 @@ namespace ProductSphere.Infrastructure.Services
             var item = await _unitOfWork.Items.GetByIdAsync(dto.Id);
 
             if (item == null)
-                throw new Exception("Item not found.");
+                throw new NotFoundException($"Item with Id {dto.Id} was not found."); // Glo_Exc
 
             _mapper.Map(dto, item);
 
@@ -59,7 +60,7 @@ namespace ProductSphere.Infrastructure.Services
             var item = await _unitOfWork.Items.GetByIdAsync(id);
 
             if (item == null)
-                throw new Exception("Item not found.");
+                throw new NotFoundException($"Item with Id {id} was not found."); // Glo_Exc
 
             _unitOfWork.Items.Delete(item);
             await _unitOfWork.SaveChangesAsync();

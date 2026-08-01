@@ -13,6 +13,15 @@ namespace ProductSphere.Infrastructure.Data
 
         public DbSet<Item> Items { get; set; }
 
+        // JWT_Auth
+        public DbSet<User> Users { get; set; }
+
+        // JWT_Auth
+        public DbSet<Role> Roles { get; set; }
+
+        // JWT_Auth
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

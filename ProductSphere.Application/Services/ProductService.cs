@@ -3,6 +3,7 @@ using ProductSphere.Application.DTOs.ProductDtos;
 using ProductSphere.Application.Interfaces.IRepositories;
 using ProductSphere.Application.Interfaces.IServices;
 using ProductSphere.Domain.Entities;
+using ProductSphere.Domain.Exceptions; // Glo_Exc
 
 namespace ProductSphere.Infrastructure.Services
 {
@@ -28,7 +29,7 @@ namespace ProductSphere.Infrastructure.Services
             var product = await _unitOfWork.Products.GetByIdAsync(id);
 
             if (product == null)
-                return null;
+                throw new NotFoundException($"Product with Id {id} was not found."); // Glo_Exc
 
             return _mapper.Map<ProductDto>(product);
         }
@@ -36,7 +37,7 @@ namespace ProductSphere.Infrastructure.Services
         public async Task CreateAsync(CreateProductDto createProductDto)
         {
             if (await _unitOfWork.Products.ExistsByNameAsync(createProductDto.ProductName))
-                throw new Exception("Product already exists.");
+                throw new BadRequestException("Product already exists."); // Glo_Exc
 
             var product = _mapper.Map<Product>(createProductDto);
             product.CreatedOn = DateTime.UtcNow;
@@ -50,7 +51,7 @@ namespace ProductSphere.Infrastructure.Services
             var product = await _unitOfWork.Products.GetByIdAsync(updateProductDto.Id);
 
             if (product == null)
-                throw new Exception("Product not found.");
+                throw new NotFoundException($"Product with Id {updateProductDto.Id} was not found."); // Glo_Exc
 
             _mapper.Map(updateProductDto, product);
             product.ModifiedOn = DateTime.UtcNow;
@@ -64,7 +65,7 @@ namespace ProductSphere.Infrastructure.Services
             var product = await _unitOfWork.Products.GetByIdAsync(id);
 
             if (product == null)
-                throw new Exception("Product not found.");
+                throw new NotFoundException($"Product with Id {id} was not found."); // Glo_Exc
 
             _unitOfWork.Products.Delete(product);
             await _unitOfWork.SaveChangesAsync();

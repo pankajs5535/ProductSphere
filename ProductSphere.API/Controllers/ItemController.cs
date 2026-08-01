@@ -1,9 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProductSphere.Application.DTOs.ItemDtos;
 using ProductSphere.Application.Interfaces.IServices;
 
+
 namespace ProductSphere.API.Controllers
 {
+
+    [ApiVersion("1.0")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ItemController : ControllerBase
@@ -33,6 +39,7 @@ namespace ProductSphere.API.Controllers
             return Ok(item);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateItemDto dto)
         {
@@ -43,6 +50,7 @@ namespace ProductSphere.API.Controllers
             });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateItemDto dto)
         {
@@ -53,6 +61,7 @@ namespace ProductSphere.API.Controllers
             });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

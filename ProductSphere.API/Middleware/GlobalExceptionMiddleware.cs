@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using ProductSphere.Domain.Exceptions;
+using System.Net;
 using System.Text.Json;
 
 namespace ProductSphere.API.Middleware
@@ -26,15 +27,26 @@ namespace ProductSphere.API.Middleware
 
                 context.Response.ContentType = "application/json";
 
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                //context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                var responce = new
+                var statusCode = ex switch
                 {
-                    StatusCodes = context.Response.StatusCode,
-                    Message = "An unexpected error occurred."
+                    NotFoundException => StatusCodes.Status404NotFound,
+                    BadRequestException => StatusCodes.Status400BadRequest,
+                    ValidationException => StatusCodes.Status400BadRequest,
+                    _ => StatusCodes.Status500InternalServerError
                 };
 
-                await context.Response.WriteAsync(JsonSerializer.Serialize(responce));
+                context.Response.StatusCode = statusCode;
+
+                var response = new
+                {
+                    StatusCode = statusCode,
+                    Message = ex.Message
+                };
+
+                await context.Response.WriteAsync(
+                    JsonSerializer.Serialize(response));
 
             }
         }

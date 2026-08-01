@@ -1,10 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProductSphere.Application.DTOs.ProductDtos;
 using ProductSphere.Application.Interfaces.IServices;
 
+
+using Asp.Versioning;
+
 namespace ProductSphere.API.Controllers
 {
+    [ApiVersion("1.0")]
+    [Authorize]
     [Route("api/[controller]")]
+    //[Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -19,12 +26,13 @@ namespace ProductSphere.API.Controllers
             _logger = logger;
         }
 
+       
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var products = await _productService.GetAllAsync();
             _logger.LogInformation("GetAll Products API called.");
-            throw new Exception("Test exception");
+           // throw new Exception("Test exception");
             return Ok(products);
         }
 
@@ -39,6 +47,7 @@ namespace ProductSphere.API.Controllers
             return Ok(product);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProductDto createProductDto)
         {
@@ -46,6 +55,7 @@ namespace ProductSphere.API.Controllers
             return Ok("Product created successfully.");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateProductDto updateProductDto)
         {
@@ -53,6 +63,7 @@ namespace ProductSphere.API.Controllers
             return Ok("Product updated successfully.");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

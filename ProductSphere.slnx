@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Src/">
+    <File Path="docker-compose.yml" />
     <Project Path="ProductSphere.API/ProductSphere.API.csproj" />
     <Project Path="ProductSphere.Application/ProductSphere.Application.csproj" />
     <Project Path="ProductSphere.Domain/ProductSphere.Domain.csproj" />

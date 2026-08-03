@@ -1,0 +1,32 @@
+﻿# Build output
+**/bin/
+**/obj/
+
+# Visual Studio
+.vs/
+.vscode/
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile*
+
+# User files
+*.user
+*.suo
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Documentation
+README.md

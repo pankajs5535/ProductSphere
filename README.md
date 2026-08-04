@@ -69,24 +69,52 @@ It also includes JWT-based authentication, role-based authorization, validation,
 ProductSphere follows the **Clean Architecture** pattern, separating the application into independent layers with clear responsibilities. This approach improves maintainability, scalability, testability, and separation of concerns.
 
 ```
-                 +----------------------+
-                 |   ProductSphere.API  |
-                 +----------+-----------+
-                            |
-                            v
-                 +----------------------+
-                 | ProductSphere.Application |
-                 +----------+-----------+
-                            |
-                            v
-                 +----------------------+
-                 | ProductSphere.Domain |
-                 +----------+-----------+
-                            |
-                            v
-                 +----------------------+
-                 | ProductSphere.Infrastructure |
-                 +----------------------+
+        
+                                                 HTTP Request
+                                                     │
+                                                     ▼
+                              +--------------------------------------------------+
+                              |              ProductSphere.API                   |
+                              |--------------------------------------------------|
+                              | Controllers                                      |
+                              | Middleware                                       |
+                              | Filters                                          |
+                              | Extensions                                       |
+                              | Program.cs                                       |
+                              +-------------------------┬------------------------+
+                                                        │
+                                                        ▼
+                              +--------------------------------------------------+
+                              |          ProductSphere.Application               |
+                              |--------------------------------------------------|
+                              | DTOs                                             |
+                              | Interfaces                                       |
+                              | Validators                                       |
+                              | AutoMapper                                       |
+                              +-------------------------┬------------------------+
+                                                        │
+                                                        ▼
+                              +--------------------------------------------------+
+                              |             ProductSphere.Domain                 |
+                              |--------------------------------------------------|
+                              | Entities                                         |
+                              | Exceptions                                       |
+                              +-------------------------▲------------------------+
+                                                        │
+                              +-------------------------┴------------------------+
+                              |        ProductSphere.Infrastructure             |
+                              |--------------------------------------------------|
+                              | EF Core                                          |
+                              | ApplicationDbContext                             |
+                              | Configurations                                   |
+                              | Repositories                                     |
+                              | UnitOfWork                                       |
+                              | Identity Services                                |
+                              | Business Services                                |
+                              +--------------------------------------------------+
+        
+                  
+                
 ```
 
 ### API Layer

@@ -262,15 +262,32 @@ ProductSphere
 ├── Tests
 │   │
 │   ├── ProductSphere.Application.Tests
-│   │   ├── ProductServiceTests.cs
-│   │   ├── ItemServiceTests.cs
-│   │   └── AuthServiceTests.cs
+│   │   ├── Services
+│   │   │   ├── ProductServiceTests.cs
+│   │   │   ├── ItemServiceTests.cs
+│   │   │   └── AuthServiceTests.cs
+│   │   │
+│   │   └── ProductSphere.Application.Tests.csproj
+│   │
+│   ├── ProductSphere.Infrastructure.Tests
+│   │   ├── Data
+│   │   │   ├── ApplicationDbContextTests.cs
+│   │   │   └── UnitOfWorkTests.cs
+│   │   │
+│   │   ├── Helpers
+│   │   │   └── DbContextFactory.cs
+│   │   │
+│   │   ├── Repositories
+│   │   │   └── GenericRepositoryTests.cs
+│   │   │
+│   │   └── ProductSphere.Infrastructure.Tests.csproj
 │   │
 │   └── ProductSphere.API.Tests
 │       ├── CustomWebApplicationFactory.cs
 │       ├── ProductControllerTests.cs
 │       ├── ItemControllerTests.cs
-│       └── AuthControllerTests.cs
+│       ├── AuthControllerTests.cs
+│       └── ProductSphere.API.Tests.csproj
 │
 ├── Dockerfile
 ├── docker-compose.yml
@@ -627,37 +644,47 @@ This starts the API and all configured services using the `docker-compose.yml` f
 
 ---
 
-# Testing
+ # Testing
 
-The project includes both **Unit Tests** and **Integration Tests** to ensure application quality and reliability.
+The solution includes comprehensive testing across the Application, Infrastructure, and API layers.
 
-## Unit Testing
+## Application Tests
 
-Frameworks used:
+- ProductServiceTests
+- ItemServiceTests
+- AuthServiceTests
+
+Frameworks:
 
 - xUnit
 - Moq
 - FluentAssertions
 
-Covered Services:
+---
 
-- ProductService
-- ItemService
-- AuthService
+## Infrastructure Tests
+
+Covered Test Classes:
+
+- GenericRepositoryTests
+- ApplicationDbContextTests
+- UnitOfWorkTests
 
 ---
 
-## Integration Testing
+## API Integration Tests
 
-Integration tests are implemented using **WebApplicationFactory**.
+Implemented using **WebApplicationFactory**.
 
-Covered APIs:
+Covered Controllers:
 
 - AuthController
 - ProductController
 - ItemController
 
-All integration tests pass successfully.
+---
+
+All unit and integration tests pass successfully.
 
 ---
 
@@ -716,12 +743,11 @@ Implemented security features include:
 
 ---
 
-# Testing Summary
-
 | Test Type | Status |
 |------------|--------|
-| Unit Tests | ✅ Passed |
-| Integration Tests | ✅ Passed |
+| Application Unit Tests | ✅ Passed |
+| Infrastructure Unit Tests | ✅ Passed |
+| API Integration Tests | ✅ Passed (26/26) |
 
 ---
 
@@ -769,10 +795,12 @@ Possible future improvements include:
 **Pankaj Suryawanshi**
 
 GitHub: https://github.com/pankajs5535
+GitHub: https://github.com/pankajs5535/ProductSphere
 
 ---
 
 # License
 
-This project was developed as part of a technical assessment and is intended for educational and evaluation purposes.
+This project was developed as part of a technical assessment. 
+It demonstrates enterprise backend development practices using ASP.NET Core 8 and Clean Architecture.
 
